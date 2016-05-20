@@ -100,9 +100,9 @@ namespace VarTypes {
         QModelIndex index=topLeft.sibling(i,1);
         if (index.isValid() && index.model()!=0) {
           VarItem * item=(VarItem*)(((VarTreeModel*)index.model())->itemFromIndex (index));
-          if (item!=0) {
+          if (item!= nullptr) {
             VarPtr dt=item->getVarType();
-            if (dt!=0) {
+            if (dt!= nullptr) {
               if ((dt->getFlags() & VARTYPE_FLAG_PERSISTENT) != 0x00) {
                 tw->openPersistentEditor(index);
               } /*else {

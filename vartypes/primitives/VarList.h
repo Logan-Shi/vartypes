@@ -108,7 +108,7 @@ namespace VarTypes {
       lock();
       int n = list.size();
       for (int i = 0; i < n ; i++) {
-        if (list[i]!=0) {
+        if (list[i]!= nullptr) {
           list[i]->deleteAllChildren();
         }
       }
