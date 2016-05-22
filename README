@@ -89,8 +89,7 @@
               More complex types can be added easily by inheriting the
               VarData base-class.
 
- Requires:    cmake, Qt >=4.5, C++ tr1 libraries (automatically supplied by
-              many modern compilers).
+ Requires:    cmake, Qt >=4.5, C++11 compatible compiler, boost-serialization.
 
  Usage:       An example including the QT4 GUI is located in the example/
               directory. To build, make sure you have QT >= 4.3 installed
