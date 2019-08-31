@@ -1,9 +1,14 @@
 project(vartypes)
 cmake_minimum_required(VERSION 2.4)
 
-find_package ( Qt4 REQUIRED )
+if(APPLE AND EXISTS /usr/local/opt/qt)
+    # Homebrew installs Qt5 (up to at least 5.9.1) in
+    # /usr/local/qt5, ensure it can be found by CMake since
+    # it is not in the default /usr/local prefix.
+    list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt")
+endif()
+find_package(Qt5 COMPONENTS Core Widgets Gui REQUIRED)
 
-include ( ${QT_USE_FILE} )
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
     message(STATUS "Adding -std=c++11")
@@ -121,11 +126,11 @@ set (RC
   ${src_dir}/vartypes/gui/icons/icons.qrc
 )
 
-qt4_wrap_cpp (MOC_SRCS
+qt5_wrap_cpp (MOC_SRCS
   ${HEADERS}
 )
 
-qt4_add_resources(RC_SRCS 
+qt5_add_resources(RC_SRCS
   ${RC}
 )
 
@@ -135,7 +140,7 @@ set (CMAKE_CXX_FLAGS_DEBUG "-g")
 #flags to set in release mode
 set (CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3 -march=native")
 
-set (libs ${QT_LIBRARIES})
+set (libs Qt5::Core Qt5::Widgets Qt5::Gui)
 
 
 SET(CMAKE_INSTALL_LIBDIR lib CACHE PATH "Output directory for libraries")
@@ -145,6 +150,7 @@ SET(CMAKE_INSTALL_DOCDIR share/doc CACHE PATH "Output directory for documentatio
 set (target vartypes)
 add_library(${target} SHARED ${MOC_SRCS} ${SRCS} ${RC_SRCS})
 set_target_properties(${target} PROPERTIES VERSION 0.7.0 SOVERSION 1)
+#target_link_libraries(vartypes Qt5::Core Qt5::Widgets Qt5::Gui)
 target_link_libraries(${target} ${libs})
 
 INSTALL(FILES ${INSTALLABLE_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/vartypes)
