@@ -148,7 +148,15 @@ SET(CMAKE_INSTALL_INCLUDEDIR include CACHE PATH "Output directory for header fil
 SET(CMAKE_INSTALL_DOCDIR share/doc CACHE PATH "Output directory for documentation and license files")
 
 set (target vartypes)
-add_library(${target} SHARED ${MOC_SRCS} ${SRCS} ${RC_SRCS})
+# set BUILD_SHARED_LIBS to switch between static and shared (static is default)
+option(VARTYPES_BUILD_STATIC "Set if static library should be built instead of shared" OFF)
+if(VARTYPES_BUILD_STATIC)
+  set(BUILD_SHARED_LIBS OFF)
+else()
+  set(BUILD_SHARED_LIBS ON)
+endif()
+
+add_library(${target} ${MOC_SRCS} ${SRCS} ${RC_SRCS})
 set_target_properties(${target} PROPERTIES VERSION 0.7.0 SOVERSION 1)
 target_link_libraries(${target} ${libs})
 
