@@ -126,9 +126,7 @@ set (RC
   ${src_dir}/vartypes/gui/icons/icons.qrc
 )
 
-qt5_wrap_cpp (MOC_SRCS
-  ${HEADERS}
-)
+set(CMAKE_AUTOMOC ON)
 
 qt5_add_resources(RC_SRCS
   ${RC}
